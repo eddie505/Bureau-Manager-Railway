@@ -42,9 +42,9 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "run-backend": "node ./back/conexionDataBase.js",
     "dev": "concurrently \"npm start\" \"npm run run-backend\""

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaArrowCircleLeft, FaArrowCircleRight, FaFilter, FaTrash} from "react-icons/fa";

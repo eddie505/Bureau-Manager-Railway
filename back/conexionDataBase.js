@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
@@ -7,7 +8,6 @@ const fs = require('fs');
 const app = express();
 const path = require('path');
 const fontkit = require('@pdf-lib/fontkit');
-require('dotenv').config();
 
 const jwt = require('jsonwebtoken');
 const secretKey = process.env.SECRET_KEY;

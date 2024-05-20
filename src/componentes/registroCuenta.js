@@ -3,6 +3,7 @@ require('dotenv').config();
 import React, { useState , useEffect} from 'react';
 import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
+import config from '../../config';
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
@@ -36,7 +37,7 @@ function RegistrarCuenta() {
       if (validateForm()) {
         try {
           const resultado = await axios.post(
-            `${apiBaseUrl}/api/registrarCuenta`,
+            `${config.REACT_APP_API_BASE_URL}/api/registrarCuenta`,
             formulario
           );
           if (resultado.data === "Cuenta registrada exitosamente") {

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { IoIosCreate } from "react-icons/io";
 import * as XLSX from 'xlsx';
+import config from '../../config';
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
@@ -26,7 +27,7 @@ function NuevoReciboExcel() {
   const meses = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
 
   useEffect(() => {
-    axios.get(`${apiBaseUrl}/api/getCondominios/${id_administrador}`)
+    axios.get(`${config.REACT_APP_API_BASE_URL}/api/getCondominios/${id_administrador}`)
       .then(response => {
         setCondominios(response.data);
       })
@@ -42,7 +43,7 @@ function NuevoReciboExcel() {
 
   useEffect(() => {
     if (selectedCondominio) {
-      axios.post(`${apiBaseUrl}/api/getEdificiosbyCondominio`, { id_condominio: selectedCondominio })
+      axios.post(`${config.REACT_APP_API_BASE_URL}/api/getEdificiosbyCondominio`, { id_condominio: selectedCondominio })
         .then(response => {
           setEdificios(response.data);
           setSelectedEdificio('');
@@ -109,7 +110,7 @@ function NuevoReciboExcel() {
         deptosExcel.push(row[0].toString().trim());
       }
       
-      const response = await axios.post(`${apiBaseUrl}/api/getDepartamentosByEdificios`, {id_edificio: selectedEdificio});
+      const response = await axios.post(`${config.REACT_APP_API_BASE_URL}/api/getDepartamentosByEdificios`, {id_edificio: selectedEdificio});
       const deptosBD = response.data;
       const deptosFaltantesEnExcel = deptosBD.filter(depto => !deptosExcel.map(d => d.toString()).includes(depto.numero_departamento.toString()));
       const deptosFaltantes = deptosExcel.filter(depto => !deptosBD.map(d => d.numero_departamento.toString()).includes(depto));
@@ -125,7 +126,7 @@ function NuevoReciboExcel() {
       }
 
       const checkInquilinosPromises = deptosBD.map(depto => 
-        axios.post(`${apiBaseUrl}/api/getInquilinosbyDepartamento`, { id_departamento: depto.id_departamento })
+        axios.post(`${config.REACT_APP_API_BASE_URL}/api/getInquilinosbyDepartamento`, { id_departamento: depto.id_departamento })
       );
 
       const resultsInquilino = await Promise.all(checkInquilinosPromises);
@@ -144,7 +145,7 @@ function NuevoReciboExcel() {
         if (!fila[0] || fila[0] === '') break;
         if(fila[10]){
           let no_recibo = fila[10].toString().trim();
-          const response = await axios.get(`${apiBaseUrl}/api/verificarRecibo/${selectedCondominio}/${no_recibo}`);
+          const response = await axios.get(`${config.REACT_APP_API_BASE_URL}/api/verificarRecibo/${selectedCondominio}/${no_recibo}`);
           if(response.data.existe){
             setError(`El recibo número ${no_recibo} ya está registrado en la base de datos.`);
             setCargando(false);
@@ -162,7 +163,7 @@ function NuevoReciboExcel() {
           const deptoEncontrado = deptosBD.find(depto => depto.numero_departamento === numero_departamento);
       
           if (deptoEncontrado) {
-            const responseInquilino = await axios.post(`${apiBaseUrl}/api/getInquilinosbyDepartamento`, {id_departamento: deptoEncontrado.id_departamento});
+            const responseInquilino = await axios.post(`${config.REACT_APP_API_BASE_URL}/api/getInquilinosbyDepartamento`, {id_departamento: deptoEncontrado.id_departamento});
             if(responseInquilino.data.length > 0){
               let id_inquilino_select = responseInquilino.data[0].id_inquilino;
               let adeudo_fila = fila[11];
@@ -194,7 +195,7 @@ function NuevoReciboExcel() {
           let deptoEncontrado = deptosBD.find(d => d.numero_departamento === departamento);
           if (!deptoEncontrado) continue;
       
-          const inquilinos = await axios.post(`${apiBaseUrl}/api/getInquilinosbyDepartamento`, {id_departamento: deptoEncontrado.id_departamento})
+          const inquilinos = await axios.post(`${config.REACT_APP_API_BASE_URL}/api/getInquilinosbyDepartamento`, {id_departamento: deptoEncontrado.id_departamento})
             .then(res => res.data);
       
           if (inquilinos.length === 0) continue;
@@ -244,9 +245,9 @@ function NuevoReciboExcel() {
           
         }
       }
-      await axios.post(`${apiBaseUrl}/api/registrarInfoPagosCompleto`, datosAdeudos);
-      await axios.post(`${apiBaseUrl}/api/registrarRecibo`, datosRecibo);
-      await axios.post(`${apiBaseUrl}/api/registrarInfoPagosCompleto`, datosInfoPagos);
+      await axios.post(`${config.REACT_APP_API_BASE_URL}/api/registrarInfoPagosCompleto`, datosAdeudos);
+      await axios.post(`${config.REACT_APP_API_BASE_URL}/api/registrarRecibo`, datosRecibo);
+      await axios.post(`${config.REACT_APP_API_BASE_URL}/api/registrarInfoPagosCompleto`, datosInfoPagos);
 
       
       setError('Proceso completado correctamente.');

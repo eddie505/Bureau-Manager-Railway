@@ -1,5 +1,6 @@
 /* eslint-disable */
 require('dotenv').config();
+import config from '../config';
 const express = require('express');
 const mysql = require('mysql2/promise');
 const bodyParser = require('body-parser');
@@ -591,7 +592,7 @@ app.post('/api/getAdmin', (req, res) => {
             res.status(500).send('Error al verificar la contraseña');
           } else if (isMatch) {
             
-            const token = jwt.sign({ correo_administrador }, secretKey, { expiresIn: '5m' });
+            const token = jwt.sign({ correo_administrador }, config.SECRET_KEY, { expiresIn: '5m' });
             res.json({ token, id_administrador: user.id_administrador });
             ///res.json({ id_administrador: user.id_administrador });
           } else {

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
+import config from '../../config';
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
@@ -27,7 +28,7 @@ function CondominiosComponent() {
 
     const fetchCondominios = async () => {
         try {
-            const response = await axios.get(`${apiBaseUrl}/api/getCondominios/${id_administrador}`);
+            const response = await axios.get(`${config.REACT_APP_API_BASE_URL}/api/getCondominios/${id_administrador}`);
             setCondominios(response.data);
         } catch (error) {
             console.error('Error al obtener condominios', error);
@@ -40,7 +41,7 @@ function CondominiosComponent() {
             setSelectedEdificio(null);
         } else {
             try {
-                const response = await axios.post(`${apiBaseUrl}/api/getEdificiosbyCondominio`, { id_condominio: condominio.id_condominio });
+                const response = await axios.post(`${config.REACT_APP_API_BASE_URL}/api/getEdificiosbyCondominio`, { id_condominio: condominio.id_condominio });
                 setSelectedCondominio({...condominio, edificios: response.data});
                 setSelectedEdificio(null);
                 fetchInquilinosByCondominio(condominio.id_condominio);
@@ -55,7 +56,7 @@ function CondominiosComponent() {
             setSelectedEdificio(null);
         } else {
             try {
-                const response = await axios.post(`${apiBaseUrl}/api/getDepartamentosbyEdificios`, { id_edificio: edificio.id_edificio });
+                const response = await axios.post(`${config.REACT_APP_API_BASE_URL}/api/getDepartamentosbyEdificios`, { id_edificio: edificio.id_edificio });
                 setSelectedEdificio({...edificio, departamentos: response.data});
             } catch (error) {
                 console.error('Error al obtener departamentos', error);
@@ -65,7 +66,7 @@ function CondominiosComponent() {
 
     const fetchInquilinosByCondominio = async (id_condominio) => {
         try {
-          const response = await axios.get(`${apiBaseUrl}/api/getInquilinosByCondominio?id_condominio=${id_condominio}`);
+          const response = await axios.get(`${config.REACT_APP_API_BASE_URL}/api/getInquilinosByCondominio?id_condominio=${id_condominio}`);
           setInquilinos(response.data);
         } catch (error) {
           console.error('Error al obtener inquilinos', error);

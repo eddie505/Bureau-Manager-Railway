@@ -3,6 +3,7 @@ require('dotenv').config();
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaArrowCircleLeft, FaArrowCircleRight, FaFilter } from "react-icons/fa";
+import config from '../../config';
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
@@ -61,7 +62,7 @@ function InfoPagos() {
 
     const cargarCondominios = async () => {
         try {
-            const response = await axios.get(`${apiBaseUrl}/api/getCondominios/${id_administrador}`);
+            const response = await axios.get(`${config.REACT_APP_API_BASE_URL}/api/getCondominios/${id_administrador}`);
             setCondominios(response.data);
         } catch (error) {
             console.error("Error al cargar condominios:", error);
@@ -70,7 +71,7 @@ function InfoPagos() {
 
     const cargarEdificios = async (idCondominio) => {
         try {
-            const response = await axios.post(`${apiBaseUrl}/api/getEdificiosbyCondominio`, { id_condominio: idCondominio });
+            const response = await axios.post(`${config.REACT_APP_API_BASE_URL}/api/getEdificiosbyCondominio`, { id_condominio: idCondominio });
             setEdificios(response.data);
         } catch (error) {
             console.error("Error al cargar edificios:", error);
@@ -90,8 +91,8 @@ function InfoPagos() {
         }
 
         try {
-            const response = await axios.get(`${apiBaseUrl}/api/getInfoPagosFiltrados/${id_administrador}`, { params });
-            const pagos = await axios.get(`${apiBaseUrl}/api/getInfoPagos/${id_administrador}`);
+            const response = await axios.get(`${config.REACT_APP_API_BASE_URL}/api/getInfoPagosFiltrados/${id_administrador}`, { params });
+            const pagos = await axios.get(`${config.REACT_APP_API_BASE_URL}/api/getInfoPagos/${id_administrador}`);
             setDatosPagos(response.data);
             setDatosPagosTotal(pagos.data);
             setPaginaActual(1);

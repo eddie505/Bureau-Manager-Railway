@@ -3,6 +3,9 @@ require('dotenv').config();
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import config from '../../config';
+
+${config.REACT_APP_API_BASE_URL}
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
@@ -28,7 +31,7 @@ function EditoCondominio() {
 
   useEffect(() => {
     if (id_administrador) {
-      axios.get(`${apiBaseUrl}/api/getCondominios/${id_administrador}`)
+      axios.get(`${config.REACT_APP_API_BASE_URL}/api/getCondominios/${id_administrador}`)
         .then(response => {
           
           if (response.data.length > 0) {
@@ -127,7 +130,7 @@ function EditoCondominio() {
     }
     if (formulario.nombre_condominio.trim() !== '' && formulario.direccion_condominio.trim() !== '') {
     try {
-      const resultado = await axios.post(`${apiBaseUrl}/api/actualizarCondominio`, formulario);
+      const resultado = await axios.post(`${config.REACT_APP_API_BASE_URL}/api/actualizarCondominio`, formulario);
       if (resultado.data === 200) {
         setVisible(true);
         window.location.reload();

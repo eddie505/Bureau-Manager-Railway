@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../img/logo2.png';
 import { useAuth } from '../AuthContext';
+import config from '../../config';
 
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
@@ -74,7 +75,7 @@ function Formulario() {
       }
       if (formulario.correo_administrador.trim() !== '' && formulario.contraseña_administrador.trim() !== '') {
         try {
-          const resultado = await axios.post(`${apiBaseUrl}/api/getAdmin`, formulario);
+          const resultado = await axios.post(`${config.REACT_APP_API_BASE_URL}/api/getAdmin`, formulario);
 
           /*if (resultado.data === 1) {
             setRedirigir(true);

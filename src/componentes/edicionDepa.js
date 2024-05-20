@@ -2,6 +2,7 @@
 require('dotenv').config();
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import config from '../../config';
 
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
@@ -28,7 +29,7 @@ function EditoDepartamento() {
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem('authData'));
     const id_administrador = parseInt(authData?.id);
-    axios.get(`${apiBaseUrl}/api/getCondominios/${id_administrador}`)
+    axios.get(`${config.REACT_APP_API_BASE_URL}/api/getCondominios/${id_administrador}`)
       .then(resultado => {
         setCondominios(resultado.data);
         if (resultado.data.length > 0) {
@@ -55,7 +56,7 @@ function EditoDepartamento() {
 
   useEffect(() => {
     if (idCondominioSeleccionado) {
-      axios.post(`${apiBaseUrl}/api/getEdificiosbyCondominio`, { id_condominio: idCondominioSeleccionado })
+      axios.post(`${config.REACT_APP_API_BASE_URL}/api/getEdificiosbyCondominio`, { id_condominio: idCondominioSeleccionado })
         .then(response => {
           setEdificios(response.data);
       
@@ -77,7 +78,7 @@ function EditoDepartamento() {
   }, [idCondominioSeleccionado]);
   
   const cargarDepartamentos = (idEdificio) => {
-    axios.post(`${apiBaseUrl}/api/getDepartamentosbyEdificios`, { id_edificio: idEdificio })
+    axios.post(`${config.REACT_APP_API_BASE_URL}/api/getDepartamentosbyEdificios`, { id_edificio: idEdificio })
       .then(resultado => {
         setDepartamentos(resultado.data);
         if (resultado.data.length > 0) {
@@ -155,7 +156,7 @@ function EditoDepartamento() {
       return;
     }
     try {
-      const resultado = await axios.post(`${apiBaseUrl}/api/actualizarDepartamento`, formulario);
+      const resultado = await axios.post(`${config.REACT_APP_API_BASE_URL}/api/actualizarDepartamento`, formulario);
       if (resultado.data === 200) {
         setVisible(true);
         window.location.reload();

@@ -2,6 +2,7 @@
 require('dotenv').config();
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import config from '../../config';
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
@@ -61,7 +62,7 @@ function NuevoCondominio() {
     }
     if (formulario.nombre_condominio.trim() !== '' && formulario.direccion_condominio.trim() !== '' && formulario.id_administrador && formulario.admin_condominio) {
       try {
-        const resultado = await axios.post(`${apiBaseUrl}/api/registrarCondominio`, formulario);
+        const resultado = await axios.post(`${config.REACT_APP_API_BASE_URL}/api/registrarCondominio`, formulario);
         if (resultado.data === 200) {
           setVisible(true);
 

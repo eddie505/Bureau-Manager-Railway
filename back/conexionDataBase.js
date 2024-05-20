@@ -12,7 +12,7 @@ const path = require('path');
 const fontkit = require('@pdf-lib/fontkit');
 
 const jwt = require('jsonwebtoken');
-const secretKey = process.env.SECRET_KEY;
+//const secretKey = process.env.SECRET_KEY;
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -29,7 +29,7 @@ app.use(cors());
   database: 'bureau-manager'
 });*/
 
-const connection = mysql.createPool(process.env.MYSQL_URL);
+const connection = mysql.createPool(config.MYSQL_URL);
 
 /*connection.connect(error => {
   if (error) throw error;
@@ -1029,7 +1029,7 @@ app.post('/api/eliminarRecibos', (req, res) => {
 
 
 
-const PORT = process.env.PORT || 4000;
+const PORT = config.MYSQLPORT || 4000;
 app.listen(PORT, '0.0.0.0',() => {
   console.log(`Servidor iniciado en http://0.0.0.0:${PORT}`);
 });

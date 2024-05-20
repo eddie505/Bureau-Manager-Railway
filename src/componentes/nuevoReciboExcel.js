@@ -7,7 +7,7 @@ import { IoIosCreate } from "react-icons/io";
 import * as XLSX from 'xlsx';
 import config from '../config';
 
-const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
+//const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
 function NuevoReciboExcel() {
   const authData = JSON.parse(localStorage.getItem('authData'));

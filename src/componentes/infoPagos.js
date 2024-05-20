@@ -5,7 +5,7 @@ import axios from 'axios';
 import { FaArrowCircleLeft, FaArrowCircleRight, FaFilter } from "react-icons/fa";
 import config from '../config';
 
-const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
+//const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
 
 function InfoPagos() {

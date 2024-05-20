@@ -7,7 +7,7 @@ import config from '../config';
 
 //${config.REACT_APP_API_BASE_URL}
 
-const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
+//const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
 function EditoCondominio() {
   const [formulario, setFormulario] = useState({

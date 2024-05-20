@@ -7,7 +7,7 @@ import { IoIosArrowUp } from "react-icons/io";
 import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
 import config from '../config';
 
-const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
+//const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
 
 function CondominiosComponent() {

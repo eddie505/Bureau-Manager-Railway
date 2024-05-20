@@ -5,7 +5,7 @@ import { Link , useNavigate} from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import config from '../config';
 
-const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
+//const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
 
 function MenuInicial() {

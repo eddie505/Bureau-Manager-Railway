@@ -7,7 +7,7 @@ import e from 'connect-flash';
 import { SiMicrosoftexcel } from "react-icons/si";
 import config from '../config';
 
-const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
+//const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
 function NuevoRecibo() {
   const authData = JSON.parse(localStorage.getItem('authData'));

@@ -1,4 +1,6 @@
 /* eslint-disable */
+import process from 'process';
+window.process = process;
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { AuthProvider } from './AuthContext.js';

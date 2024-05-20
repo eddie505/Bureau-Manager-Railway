@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import e from 'connect-flash';
 import { SiMicrosoftexcel } from "react-icons/si";
-import config from '../../config';
+import config from '../config';
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 

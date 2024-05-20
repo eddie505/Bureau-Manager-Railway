@@ -1,6 +1,6 @@
 /* eslint-disable */
 require('dotenv').config();
-import config from '../config';
+import config from '../src/config';
 const express = require('express');
 const mysql = require('mysql2/promise');
 const bodyParser = require('body-parser');

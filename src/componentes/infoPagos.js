@@ -3,7 +3,7 @@ require('dotenv').config();
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaArrowCircleLeft, FaArrowCircleRight, FaFilter } from "react-icons/fa";
-import config from '../../config';
+import config from '../config';
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 

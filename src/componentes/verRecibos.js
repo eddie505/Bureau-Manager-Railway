@@ -1,7 +1,10 @@
 /* eslint-disable */
+require('dotenv').config();
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaArrowCircleLeft, FaArrowCircleRight, FaFilter, FaTrash} from "react-icons/fa";
+
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
 
 function VerRecibo() {
@@ -70,7 +73,7 @@ function VerRecibo() {
     try {
       const authData = JSON.parse(localStorage.getItem('authData'));
       const id_administrador = parseInt(authData?.id);
-      const response = await axios.get(`http://localhost:4000/api/getCondominios/${id_administrador}`);
+      const response = await axios.get(`${apiBaseUrl}/api/getCondominios/${id_administrador}`);
       setCondominios(response.data);
     } catch (error) {
       console.error("Error al cargar condominios:", error);
@@ -79,7 +82,7 @@ function VerRecibo() {
 
   const cargarEdificios = async (idCondominio) => {
     try {
-      const response = await axios.post(`http://localhost:4000/api/getEdificiosbyCondominio`, { id_condominio: idCondominio });
+      const response = await axios.post(`${apiBaseUrl}/api/getEdificiosbyCondominio`, { id_condominio: idCondominio });
       setEdificios(response.data);
       setFiltroEdificio(''); 
     } catch (error) {
@@ -89,7 +92,7 @@ function VerRecibo() {
 
   const cargarDepartamentos = async (idEdificio) => {
     try {
-      const response = await axios.post(`http://localhost:4000/api/getDepartamentosbyEdificios`, { id_edificio: idEdificio });
+      const response = await axios.post(`${apiBaseUrl}/api/getDepartamentosbyEdificios`, { id_edificio: idEdificio });
       setDepartamentos(response.data);
       setFiltroDepartamento(''); 
     } catch (error) {
@@ -101,7 +104,7 @@ function VerRecibo() {
     const authData = JSON.parse(localStorage.getItem('authData'));
     const id_administrador = parseInt(authData?.id);
     try {
-      const response = await axios.get(`http://localhost:4000/api/getRecibos/${id_administrador}`);
+      const response = await axios.get(`${apiBaseUrl}/api/getRecibos/${id_administrador}`);
       colocarRecibos(response);
     } catch (error) {
       console.error("Error al cargar recibos:", error);
@@ -152,7 +155,7 @@ function VerRecibo() {
     const buttonValue = submitButton.getAttribute('value');
     if (buttonValue==='correo'){
         try {
-            const resultado = await axios.post('http://localhost:4000/api/enviarRecibosCorreoElectronico', recibosSeleccionados);
+            const resultado = await axios.post(`${apiBaseUrl}/api/enviarRecibosCorreoElectronico`, recibosSeleccionados);
             if (resultado.data === 200) {
               setVisible(true);
               setMensajeExito('Recibos enviados correctamente');
@@ -167,7 +170,7 @@ function VerRecibo() {
     }
     else{
         try {
-            const response = await axios.post('http://localhost:4000/api/generarPDFMasivo', recibosSeleccionados, {
+            const response = await axios.post(`${apiBaseUrl}/api/generarPDFMasivo`, recibosSeleccionados, {
               responseType: 'blob',
             });
           
@@ -202,7 +205,7 @@ function VerRecibo() {
     console.log(mes + anio);
   
     try {
-      const response = await axios.get(`http://localhost:4000/api/getRecibosFiltrados/${id_administrador}`, {
+      const response = await axios.get(`${apiBaseUrl}/api/getRecibosFiltrados/${id_administrador}`, {
         params: {
           condominio: filtroCondominio || null,
           edificio: filtroEdificio || null,
@@ -245,7 +248,7 @@ function VerRecibo() {
 
     if (window.confirm('¿Estás seguro de querer eliminar los recibos seleccionados?')) {
         try {
-            await axios.post('http://localhost:4000/api/eliminarRecibos', { ids: recibosSeleccionados });
+            await axios.post('${apiBaseUrl}/api/eliminarRecibos', { ids: recibosSeleccionados });
             alert('Recibos eliminados correctamente');
             setRecibosSeleccionados([]);
             cargarRecibos();

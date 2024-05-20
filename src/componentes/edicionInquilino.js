@@ -1,6 +1,10 @@
 /* eslint-disable */
+require('dotenv').config();
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
+
 
 
 function EditoInquilino() {
@@ -33,7 +37,7 @@ function EditoInquilino() {
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem('authData'));
     const id_administrador = parseInt(authData?.id);
-    axios.get(`http://localhost:4000/api/getCondominios/${id_administrador}`)
+    axios.get(`${apiBaseUrl}/api/getCondominios/${id_administrador}`)
       .then(response => {
         if(response.data.length === 0){
           setEdificios([]);
@@ -56,7 +60,7 @@ function EditoInquilino() {
         const diccionario = {};
         diccionario['id_condominio'] = parseInt(selectedCondominio);
   
-        axios.post(`http://localhost:4000/api/getEdificiosbyCondominio`,diccionario)
+        axios.post(`${apiBaseUrl}/api/getEdificiosbyCondominio`,diccionario)
           .then(resultado => {
             if (resultado.data.length === 0) {
               setEdificios([]);
@@ -79,7 +83,7 @@ function EditoInquilino() {
               const diccionario2 = {};
               diccionario2['id_edificio'] = parseInt(selectedEdifcio);
               
-              axios.post(`http://localhost:4000/api/getDepartamentosbyEdificios`,diccionario2)
+              axios.post(`${apiBaseUrl}/api/getDepartamentosbyEdificios`,diccionario2)
               .then(resultado => {
                 if (resultado.data.length === 0) {
                   setDepartamentos([]);
@@ -101,7 +105,7 @@ function EditoInquilino() {
                   const diccionario3 = {};
                   diccionario3['id_departamento'] = parseInt(selectedInquilino);
 
-                  axios.post(`http://localhost:4000/api/getInquilinosbyDepartamento`,diccionario3)
+                  axios.post(`${apiBaseUrl}/api/getInquilinosbyDepartamento`,diccionario3)
                   .then(resultado => {
                     if (resultado.data.length === 0) {
                       setInquilinos([]);
@@ -171,7 +175,7 @@ function EditoInquilino() {
         const diccionario = {};
         diccionario['id_condominio'] = selectedCondominio.id_condominio;
   
-        axios.post(`http://localhost:4000/api/getEdificiosbyCondominio`,diccionario)
+        axios.post(`${apiBaseUrl}/api/getEdificiosbyCondominio`,diccionario)
           .then(resultado => {
             if (resultado.data.length === 0) {
               setEdificios([]);
@@ -193,7 +197,7 @@ function EditoInquilino() {
               const diccionario2 = {};
               diccionario2['id_edificio'] = parseInt(selectedEdifcio);
               
-              axios.post(`http://localhost:4000/api/getDepartamentosbyEdificios`,diccionario2)
+              axios.post(`${apiBaseUrl}/api/getDepartamentosbyEdificios`,diccionario2)
               .then(resultado => {
                 if (resultado.data.length === 0) {
                   setDepartamentos([]);
@@ -214,7 +218,7 @@ function EditoInquilino() {
                   const diccionario3 = {};
                   diccionario3['id_departamento'] = parseInt(selectedInquilino);
 
-                  axios.post(`http://localhost:4000/api/getInquilinosbyDepartamento`,diccionario3)
+                  axios.post(`${apiBaseUrl}/api/getInquilinosbyDepartamento`,diccionario3)
                   .then(resultado => {
                     if (resultado.data.length === 0) {
                       setInquilinos([]);
@@ -272,7 +276,7 @@ function EditoInquilino() {
         const diccionario = {};
         diccionario['id_edificio'] = selectedEdificio.id_edificio;
   
-        axios.post(`http://localhost:4000/api/getDepartamentosbyEdificios`,diccionario)
+        axios.post(`${apiBaseUrl}/api/getDepartamentosbyEdificios`,diccionario)
           .then(resultado => {
             if (resultado.data.length === 0) {
               setDepartamentos([]);
@@ -294,7 +298,7 @@ function EditoInquilino() {
                   const diccionario3 = {};
                   diccionario3['id_departamento'] = parseInt(selectedInquilino);
 
-                  axios.post(`http://localhost:4000/api/getInquilinosbyDepartamento`,diccionario3)
+                  axios.post(`${apiBaseUrl}/api/getInquilinosbyDepartamento`,diccionario3)
                   .then(resultado => {
                     if (resultado.data.length === 0) {
                       setInquilinos([]);
@@ -346,7 +350,7 @@ function EditoInquilino() {
       const diccionario = {};
         diccionario['id_departamento'] = selectedDepartamento.id_departamento;
 
-      axios.post(`http://localhost:4000/api/getInquilinosbyDepartamento`,diccionario)
+      axios.post(`${apiBaseUrl}/api/getInquilinosbyDepartamento`,diccionario)
                   .then(resultado => {
                     if (resultado.data.length === 0) {
                       setInquilinos([]);
@@ -423,7 +427,7 @@ function EditoInquilino() {
     }
 
     try {
-      const resultado = await axios.post('http://localhost:4000/api/actualizarInquilino', formulario);
+      const resultado = await axios.post(`${apiBaseUrl}/api/actualizarInquilino`, formulario);
       if (resultado.data === 200) {
         setVisible(true);
         window.location.reload();

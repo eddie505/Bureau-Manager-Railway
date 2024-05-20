@@ -1,10 +1,12 @@
 /* eslint-disable */
+require('dotenv').config();
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import e from 'connect-flash';
 import { SiMicrosoftexcel } from "react-icons/si";
 
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
 function NuevoRecibo() {
   const authData = JSON.parse(localStorage.getItem('authData'));
@@ -59,7 +61,7 @@ function NuevoRecibo() {
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem('authData'));
     const id_administrador = parseInt(authData?.id);
-    axios.get(`http://localhost:4000/api/getCondominios/${id_administrador}`)
+    axios.get(`${apiBaseUrl}/api/getCondominios/${id_administrador}`)
       .then(response => {
         if(response.data.length === 0){
           setEdificios([]);
@@ -93,7 +95,7 @@ function NuevoRecibo() {
         diccionario['id_condominio'] = parseInt(selectedCondominio);
         
   
-        axios.post(`http://localhost:4000/api/getEdificiosbyCondominio`,diccionario)
+        axios.post(`${apiBaseUrl}/api/getEdificiosbyCondominio`,diccionario)
           .then(resultado => {
             if (resultado.data.length === 0) {
               setEdificios([]);
@@ -123,7 +125,7 @@ function NuevoRecibo() {
               const diccionario2 = {};
               diccionario2['id_edificio'] = parseInt(selectedEdifcio);
               
-              axios.post(`http://localhost:4000/api/getDepartamentosbyEdificios`,diccionario2)
+              axios.post(`${apiBaseUrl}/api/getDepartamentosbyEdificios`,diccionario2)
               .then(resultado => {
                 if (resultado.data.length === 0) {
                   setDepartamentos([]);
@@ -146,7 +148,7 @@ function NuevoRecibo() {
                   const diccionario3 = {};
                   diccionario3['id_departamento'] = parseInt(selectedInquilino);
 
-                  axios.post(`http://localhost:4000/api/getInquilinosbyDepartamento`,diccionario3)
+                  axios.post(`${apiBaseUrl}/api/getInquilinosbyDepartamento`,diccionario3)
                   .then(resultado => {
                     if (resultado.data.length === 0) {
                       setInquilinos([]);
@@ -208,7 +210,7 @@ function NuevoRecibo() {
 
   const obtenerUltimoNumeroRecibo = async (id_condominio) => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/obtenerUltimoNumeroRecibo/${id_condominio}`);
+      const response = await axios.get(`${apiBaseUrl}/api/obtenerUltimoNumeroRecibo/${id_condominio}`);
       if(response.data.ultimoNumeroRecibo === null){
         setSiguienteNumeroRecibo(1);
       }else{
@@ -240,7 +242,7 @@ function NuevoRecibo() {
         diccionario['id_condominio'] = selectedCondominio.id_condominio;
         
   
-        axios.post(`http://localhost:4000/api/getEdificiosbyCondominio`,diccionario)
+        axios.post(`${apiBaseUrl}/api/getEdificiosbyCondominio`,diccionario)
           .then(resultado => {
             if (resultado.data.length === 0) {
               setEdificios([]);
@@ -269,7 +271,7 @@ function NuevoRecibo() {
               const diccionario2 = {};
               diccionario2['id_edificio'] = parseInt(selectedEdifcio);
               
-              axios.post(`http://localhost:4000/api/getDepartamentosbyEdificios`,diccionario2)
+              axios.post(`${apiBaseUrl}/api/getDepartamentosbyEdificios`,diccionario2)
               .then(resultado => {
                 if (resultado.data.length === 0) {
                   setDepartamentos([]);
@@ -289,7 +291,7 @@ function NuevoRecibo() {
                   const diccionario3 = {};
                   diccionario3['id_departamento'] = parseInt(selectedInquilino);
 
-                  axios.post(`http://localhost:4000/api/getInquilinosbyDepartamento`,diccionario3)
+                  axios.post(`${apiBaseUrl}/api/getInquilinosbyDepartamento`,diccionario3)
                   .then(resultado => {
                     if (resultado.data.length === 0) {
                       setInquilinos([]);
@@ -356,7 +358,7 @@ function NuevoRecibo() {
         const diccionario = {};
         diccionario['id_edificio'] = selectedEdificio.id_edificio;
   
-        axios.post(`http://localhost:4000/api/getDepartamentosbyEdificios`,diccionario)
+        axios.post(`${apiBaseUrl}/api/getDepartamentosbyEdificios`,diccionario)
           .then(resultado => {
             if (resultado.data.length === 0) {
               setDepartamentos([]);
@@ -377,7 +379,7 @@ function NuevoRecibo() {
                   const diccionario3 = {};
                   diccionario3['id_departamento'] = parseInt(selectedInquilino);
 
-                  axios.post(`http://localhost:4000/api/getInquilinosbyDepartamento`,diccionario3)
+                  axios.post(`${apiBaseUrl}/api/getInquilinosbyDepartamento`,diccionario3)
                   .then(resultado => {
                     if (resultado.data.length === 0) {
                       setInquilinos([]);
@@ -437,7 +439,7 @@ function NuevoRecibo() {
       const diccionario = {};
         diccionario['id_departamento'] = selectedDepartamento.id_departamento;
 
-      axios.post(`http://localhost:4000/api/getInquilinosbyDepartamento`,diccionario)
+      axios.post(`${apiBaseUrl}/api/getInquilinosbyDepartamento`,diccionario)
                   .then(resultado => {
                     if (resultado.data.length === 0) {
                       setInquilinos([]);
@@ -563,7 +565,7 @@ function NuevoRecibo() {
     }
     
     try { 
-      const respuesta = await axios.get(`http://localhost:4000/api/verificarRecibo/${formulario.id_condominio}/${formulario.no_recibo}`);
+      const respuesta = await axios.get(`${apiBaseUrl}/api/verificarRecibo/${formulario.id_condominio}/${formulario.no_recibo}`);
       if(respuesta.data.existe){
         setErrorNumero('Ya existe un recibo con ese número de folio en el condominio seleccionado');
         return;
@@ -582,8 +584,8 @@ function NuevoRecibo() {
       formulario2.no_recibo = formulario.no_recibo;
       const datosRecibo = [formulario];
       const datosInfoPagos = [formulario2];
-      const resultado = await axios.post('http://localhost:4000/api/registrarRecibo', datosRecibo);
-      const resultado2 = await axios.post('http://localhost:4000/api/registrarInfoPagosCompleto', datosInfoPagos);
+      const resultado = await axios.post(`${apiBaseUrl}/api/registrarRecibo`, datosRecibo);
+      const resultado2 = await axios.post(`${apiBaseUrl}/api/registrarInfoPagosCompleto`, datosInfoPagos);
       if (resultado.data === 200) {
         setVisible(true);
         //setFormulario(prevState => ({

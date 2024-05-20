@@ -1,6 +1,9 @@
 /* eslint-disable */
+require('dotenv').config();
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
 
 function NuevoInquilino() {
@@ -47,7 +50,7 @@ function NuevoInquilino() {
     let codigo_inquilino = '';
     while (!codigoUnico) {
       codigo_inquilino = generarCodigo(8);
-      const respuestaCodigo = await axios.get(`http://localhost:4000/api/verificarCodigoInquilino/${codigo_inquilino}`);
+      const respuestaCodigo = await axios.get(`${apiBaseUrl}/api/verificarCodigoInquilino/${codigo_inquilino}`);
       codigoUnico = !respuestaCodigo.data.existe;
     }
     return codigo_inquilino;
@@ -57,7 +60,7 @@ function NuevoInquilino() {
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem('authData'));
     const id_administrador = parseInt(authData?.id);
-    axios.get(`http://localhost:4000/api/getCondominios/${id_administrador}`)
+    axios.get(`${apiBaseUrl}/api/getCondominios/${id_administrador}`)
       .then(response => {
         if(response.data.length === 0){
           setEdificios([]);
@@ -75,7 +78,7 @@ function NuevoInquilino() {
         const diccionario = {};
         diccionario['id_condominio'] = parseInt(selectedCondominio);
   
-        axios.post(`http://localhost:4000/api/getEdificiosbyCondominio`,diccionario)
+        axios.post(`${apiBaseUrl}/api/getEdificiosbyCondominio`,diccionario)
           .then(resultado => {
             if (resultado.data.length === 0) {
               setEdificios([]);
@@ -94,7 +97,7 @@ function NuevoInquilino() {
               const diccionario2 = {};
               diccionario2['id_edificio'] = parseInt(selectedEdifcio);
               
-              axios.post(`http://localhost:4000/api/getDepartamentosbyEdificios`,diccionario2)
+              axios.post(`${apiBaseUrl}/api/getDepartamentosbyEdificios`,diccionario2)
               .then(resultado => {
                 if (resultado.data.length === 0) {
                   setDepartamentos([]);
@@ -154,7 +157,7 @@ function NuevoInquilino() {
         const diccionario = {};
         diccionario['id_condominio'] = selectedCondominio.id_condominio;
   
-        axios.post(`http://localhost:4000/api/getEdificiosbyCondominio`,diccionario)
+        axios.post(`${apiBaseUrl}/api/getEdificiosbyCondominio`,diccionario)
           .then(resultado => {
             if (resultado.data.length === 0) {
               setEdificios([]);
@@ -171,7 +174,7 @@ function NuevoInquilino() {
               const diccionario2 = {};
               diccionario2['id_edificio'] = parseInt(selectedEdifcio);
               
-              axios.post(`http://localhost:4000/api/getDepartamentosbyEdificios`,diccionario2)
+              axios.post(`${apiBaseUrl}/api/getDepartamentosbyEdificios`,diccionario2)
               .then(resultado => {
                 if (resultado.data.length === 0) {
                   setDepartamentos([]);
@@ -214,7 +217,7 @@ function NuevoInquilino() {
         const diccionario = {};
         diccionario['id_edificio'] = selectedEdificio.id_edificio;
   
-        axios.post(`http://localhost:4000/api/getDepartamentosbyEdificios`,diccionario)
+        axios.post(`${apiBaseUrl}/api/getDepartamentosbyEdificios`,diccionario)
           .then(resultado => {
             if (resultado.data.length === 0) {
               setDepartamentos([]);
@@ -280,14 +283,14 @@ function NuevoInquilino() {
     }
 
     try {
-      const response = await axios.post('http://localhost:4000/api/getInquilinosbyDepartamento', { id_departamento: formulario.id_departamento });
+      const response = await axios.post(`${apiBaseUrl}/api/getInquilinosbyDepartamento`, { id_departamento: formulario.id_departamento });
       if (response.data.length > 0) {
         setErrorInquilino('Ya existe un inquilino asignado a este departamento');
         return;
       }
       const codigo = await verificarYGenerarCodigo();
       const nuevoFormulario = { ...formulario, codigo_inquilino: codigo };
-      const resultado = await axios.post('http://localhost:4000/api/registrarInquilino', nuevoFormulario);
+      const resultado = await axios.post(`${apiBaseUrl}/api/registrarInquilino`, nuevoFormulario);
       if (resultado.data === 200) {
         setVisible(true);
         window.location.reload();

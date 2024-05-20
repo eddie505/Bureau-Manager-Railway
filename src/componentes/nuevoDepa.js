@@ -1,7 +1,10 @@
 /* eslint-disable */
+require('dotenv').config();
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
 function EditoEdificio() {
 
@@ -22,7 +25,7 @@ function EditoEdificio() {
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem('authData'));
     const id_administrador = parseInt(authData?.id);
-    axios.get(`http://localhost:4000/api/getCondominios/${id_administrador}`)
+    axios.get(`${apiBaseUrl}/api/getCondominios/${id_administrador}`)
       .then(resultado => {
         if(resultado.data.length > 0){
           setCondominios(resultado.data);
@@ -48,7 +51,7 @@ function EditoEdificio() {
   }, []);
 
   /*useEffect(() => {
-        axios.get(`http://localhost:4000/api/getEdificios`)
+        axios.get(`${apiBaseUrl}/api/getEdificios`)
           .then(resultado => {
             if (resultado.data.length === 0) {
               setFormulario({
@@ -69,7 +72,7 @@ function EditoEdificio() {
 
   useEffect(() => {
     if (idCondominioSeleccionado) {
-      axios.post('http://localhost:4000/api/getEdificiosbyCondominio', { id_condominio: idCondominioSeleccionado })
+      axios.post(`${apiBaseUrl}/api/getEdificiosbyCondominio`, { id_condominio: idCondominioSeleccionado })
         .then(resultado => {
           if(resultado.data.length > 0){
             setEdificios(resultado.data);
@@ -127,7 +130,7 @@ function EditoEdificio() {
       return;
     }
     try {
-      const resultado = await axios.post('http://localhost:4000/api/registrarDepartamento', formulario);
+      const resultado = await axios.post(`${apiBaseUrl}/api/registrarDepartamento`, formulario);
       if (resultado.data === 200) {
         setVisible(true);
         window.location.reload();

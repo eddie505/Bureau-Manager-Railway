@@ -1,7 +1,7 @@
 /* eslint-disable */
 require('dotenv').config();
 const express = require('express');
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
@@ -21,17 +21,19 @@ const saltRounds = 10;
 
 app.use(cors());
 
-const connection = mysql.createConnection({
+/*const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'n0m3l0',
   database: 'bureau-manager'
-});
+});*/
 
-connection.connect(error => {
+const connection = mysql.createPool(process.env.MYSQL_URL);
+
+/*connection.connect(error => {
   if (error) throw error;
   console.log('Conexión a la base de datos MySQL establecida');
-});
+});*/
 
 // Configurar body-parser para manejar solicitudes POST
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -1,8 +1,9 @@
 /* eslint-disable */
+require('dotenv').config();
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
 function NuevoEdificio() {
   const [formulario, setFormulario] = useState({
@@ -17,7 +18,7 @@ function NuevoEdificio() {
   useEffect(() => {
     const authData = JSON.parse(localStorage.getItem('authData'));
     const id_administrador = parseInt(authData?.id);
-    axios.get(`http://localhost:4000/api/getCondominios/${id_administrador}`)
+    axios.get(`${apiBaseUrl}/api/getCondominios/${id_administrador}`)
       .then(response => {
         if (response.data.length > 0){
           setCondominios(response.data);
@@ -85,7 +86,7 @@ function NuevoEdificio() {
       return;
     }
     try {
-      const resultado = await axios.post('http://localhost:4000/api/registrarEdificio', formulario);
+      const resultado = await axios.post(`${apiBaseUrl}/api/registrarEdificio`, formulario);
       if (resultado.data === 200) {
         setVisible(true);
         setError('');

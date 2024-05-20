@@ -1,7 +1,11 @@
 /* eslint-disable */
+require('dotenv').config();
 import React, {useEffect, useState} from 'react';
 import { Link , useNavigate} from 'react-router-dom';
 import { useAuth } from '../AuthContext';
+
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
+
 
 function MenuInicial() {
     const { logout } = useAuth();
@@ -14,7 +18,7 @@ function MenuInicial() {
 
     const fetchAdminInfo = async () => {
         try {
-            const response = await fetch(`http://localhost:4000/api/getAdmin/${id_administrador}`);  // Asegúrate de que el id está siendo correctamente pasado
+            const response = await fetch(`${apiBaseUrl}/api/getAdmin/${id_administrador}`);  // Asegúrate de que el id está siendo correctamente pasado
             const data = await response.json();
             if (response.ok) {
                 setAdminName(data.nombre_administrador);  

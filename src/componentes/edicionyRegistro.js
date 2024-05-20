@@ -1,4 +1,5 @@
 /* eslint-disable */
+require('dotenv').config();
 import React, { useState, useEffect } from 'react';
 import styles from '../css/styles2.css';
 import { Link } from 'react-router-dom';

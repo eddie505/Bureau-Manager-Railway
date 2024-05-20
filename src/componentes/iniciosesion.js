@@ -1,4 +1,5 @@
 /* eslint-disable */
+require('dotenv').config();
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -6,6 +7,7 @@ import logo from '../img/logo2.png';
 import { useAuth } from '../AuthContext';
 
 
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000';
 
 
 function Formulario() {
@@ -72,7 +74,7 @@ function Formulario() {
       }
       if (formulario.correo_administrador.trim() !== '' && formulario.contraseña_administrador.trim() !== '') {
         try {
-          const resultado = await axios.post('http://localhost:4000/api/getAdmin', formulario);
+          const resultado = await axios.post(`${apiBaseUrl}/api/getAdmin`, formulario);
 
           /*if (resultado.data === 1) {
             setRedirigir(true);

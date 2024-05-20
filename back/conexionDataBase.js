@@ -356,6 +356,8 @@ app.post('/api/enviarRecibosCorreoElectronico', (req, res) => {
         };
         console.log(datos);
 
+        //Prueba
+
         crearPDFImagen(datos)
         .then((pdfBytes) => {
           // Aquí puedes hacer lo que desees con los bytes del PDF, como guardarlo en un archivo o enviarlo al cliente
